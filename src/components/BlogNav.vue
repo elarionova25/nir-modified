@@ -1,16 +1,28 @@
 <template>
-  <nav class="nav">
-    <h1 class="nav__title">
-      <router-link to="/">{{ content.title }}</router-link>
-    </h1>
-
-    <transition-group tag="menu" name="nav__item" class="nav__menu">
-      <button v-for="label in labels" class="nav__item" :key="label" @click="navBack">
-        <i class="nav__item--icon"></i>
-        <span class="nav__item--label">{{ label }}</span>
-      </button>
-    </transition-group>
-  </nav>
+  <div class="row">
+    <nav class="nav">
+      <div>
+        <h1 class="nav__title">
+          <router-link to="/" style="margin-right: 10px;">Блог</router-link>
+          <router-link to="/news">Новости</router-link>
+        </h1>
+      </div>
+      <div style="margin-left: auto">
+        <b-input-group size="lg" style="width: 250px">
+          <template #prepend>
+            <b-input-group-text><b-icon-search/></b-input-group-text>
+          </template>
+          <b-form-input></b-form-input>
+        </b-input-group>
+      </div>
+      <transition-group tag="menu" name="nav__item" class="nav__menu ml-3" style="text-align: right">
+        <button v-for="label in labels" class="nav__item" :key="label" @click="navBack">
+          <i class="nav__item--icon"></i>
+          <span class="nav__item--label">{{ label }}</span>
+        </button>
+      </transition-group>
+    </nav>
+  </div>
 </template>
 
 <script>

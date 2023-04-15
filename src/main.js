@@ -5,8 +5,12 @@ import * as resources from './resources'
 import resource from './plugins/resource'
 import deviceQueries from './plugins/device-queries'
 import Pace from 'pace-progress'
+import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
+import 'bootstrap/dist/js/bootstrap.bundle.min'
 
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
+Vue.use(BootstrapVue)
+Vue.use(IconsPlugin)
 
 Vue.use(resource, {
   resources,
