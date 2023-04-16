@@ -1,7 +1,7 @@
 <template>
   <main class="blog" :class="{ 'blog--reading': this.post }">
-    <blog-nav :content="content" :filters="filters" :navs="navs"/>
-    <blog-feed :filters="filters"/>
+    <blog-nav :content="content" :filters="filters" :navs="navs" :query="query"/>
+    <blog-feed :filters="filters" :query="query"/>
     <blog-post :post="post"/>
     <blog-footer/>
   </main>
@@ -29,6 +29,9 @@ export default {
       labels: {
         post: '',
         author: ''
+      },
+      query: {
+        search: ''
       }
     }
   },

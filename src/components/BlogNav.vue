@@ -12,7 +12,7 @@
           <template #prepend>
             <b-input-group-text><b-icon-search/></b-input-group-text>
           </template>
-          <b-form-input></b-form-input>
+          <b-form-input v-model="query.search"></b-form-input>
         </b-input-group>
       </div>
       <transition-group tag="menu" name="nav__item" class="nav__menu ml-3" style="text-align: right">
@@ -34,6 +34,10 @@ export default {
     filters: {
       type: Object,
       default: () => {}
+    },
+    query: {
+      type: Object,
+      default: {}
     }
   },
 

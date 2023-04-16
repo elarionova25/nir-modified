@@ -2,7 +2,7 @@
   <div>
     <transition-group tag="ul" :name="transition"  class="blog__feed">
       <li v-for="post in feed" class="preview" :key="post.id">
-        <figure class="preview__figure" :class="figureClass" :style="getBgImg(post.image)">
+        <figure class="preview__figure mb-0" :class="figureClass" :style="getBgImg(post.image)">
           <transition name="v--fade">
             <figcaption v-if="!reading || $device.phone" class="preview__details">
               <router-link class="preview__title"
@@ -41,6 +41,10 @@ export default {
     filters: {
       type: Object,
       default: () => {}
+    },
+    query: {
+      type: Object,
+      default: {}
     }
   },
 
@@ -61,6 +65,16 @@ export default {
       const filterBy = {
         post: (filter, { id }) => filter === id,
         author: (filter, { author }) => filter === this.kebabify(author)
+      }
+
+      if (this.query.search) {
+        let found = [];
+        this.posts.forEach((item) => {
+          if (item.title.indexOf(this.query.search) !== -1) {
+            found.push(item);
+          }
+        });
+        return found;
       }
 
       if (!Object.keys(this.filters).length) return this.posts

@@ -47,7 +47,6 @@ export default {
 
   computed: {
     allReady() {
-      console.log(this.post)
       return this.ready && this.post;
     }
   },
