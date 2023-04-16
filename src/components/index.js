@@ -1,1 +1,1 @@
-export { default } from './Blog'
+export { default } from './articles/Articles.vue'

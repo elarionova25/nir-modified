@@ -3,11 +3,11 @@
     <nav class="nav">
       <div>
         <h1 class="nav__title">
-          <router-link to="/" style="margin-right: 10px;">Блог</router-link>
+          <router-link to="/" style="margin-right: 10px;">Статьи</router-link>
           <router-link to="/news">Новости</router-link>
         </h1>
       </div>
-      <div style="margin-left: auto">
+      <div style="margin-left: auto" v-if="currentRouteName === 'feed'">
         <b-input-group size="lg" style="width: 250px">
           <template #prepend>
             <b-input-group-text><b-icon-search/></b-input-group-text>
@@ -45,6 +45,10 @@ export default {
     labels() {
       return Object.keys(this.filters)
         .map(filter => this.content.labels[filter])
+    },
+    currentRouteName() {
+      console.log('this.$route.name', this.$route.name)
+      return this.$route.name;
     }
   },
 

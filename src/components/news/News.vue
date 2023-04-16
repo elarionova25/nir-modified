@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import BlogNav from '../BlogNav.vue';
+import BlogNav from '../Nav.vue';
 
 export default {
   name: 'News',

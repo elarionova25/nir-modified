@@ -8,10 +8,10 @@
 </template>
 
 <script>
-import BlogNav from './BlogNav'
-import BlogFeed from './BlogFeed'
-import BlogPost from './BlogPost'
-import BlogFooter from './BlogFooter'
+import BlogNav from '../Nav.vue'
+import BlogFeed from './ArticlesFeed.vue'
+import BlogPost from './ArticlesPost.vue'
+import BlogFooter from './ArticlesFooter.vue'
 
 export default {
   name: 'blog',
@@ -32,7 +32,8 @@ export default {
       },
       query: {
         search: ''
-      }
+      },
+      status: ''
     }
   },
 

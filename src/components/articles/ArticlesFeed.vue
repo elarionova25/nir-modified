@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import { scrollTo, kebabify, prettyDate } from '../helpers'
+import { scrollTo, kebabify, prettyDate } from '../../helpers'
 
 export default {
   name: 'blog-feed',

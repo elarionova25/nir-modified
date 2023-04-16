@@ -25,7 +25,7 @@
 
 <script>
 import VueDisqus from 'vue-disqus/VueDisqus'
-import { kebabify, prettyDate } from '../helpers'
+import { kebabify, prettyDate } from '../../helpers'
 
 export default {
   name: 'blog-post',
