@@ -1,6 +1,10 @@
 <template>
   <transition name="post">
     <article v-if="allReady" class="post">
+      <b-button variant="link" :to="{path: '/', name: 'feed'}">
+        <b-icon-caret-left/>
+        Назад
+      </b-button>
       <header class="post__header">
         <h2 class="post__title">{{ title }}</h2>
 
