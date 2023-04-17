@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Blog from '../components'
 import News from '../components/news/News.vue';
+import AddArticle from '../components/articles/AddArticle.vue';
 
 Vue.use(Router)
 
@@ -26,6 +27,10 @@ export default new Router({
     path: '/news',
     name: 'news',
     component: News
+  }, {
+    path: '/add',
+    name: 'add',
+    component: AddArticle
   }
   ]
 })

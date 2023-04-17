@@ -5,6 +5,9 @@
         <h1 class="nav__title">
           <router-link to="/" style="margin-right: 10px;">Статьи</router-link>
           <router-link to="/news">Новости</router-link>
+          <b-button variant="success" :to="{ path: '/add', name: 'add'}">
+            Добавить статью
+          </b-button>
         </h1>
       </div>
       <div style="margin-left: auto" v-if="currentRouteName === 'feed'">
@@ -47,7 +50,6 @@ export default {
         .map(filter => this.content.labels[filter])
     },
     currentRouteName() {
-      console.log('this.$route.name', this.$route.name)
       return this.$route.name;
     }
   },
