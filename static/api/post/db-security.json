@@ -8,6 +8,20 @@
       "description": "Информационная безопасность",
       "published": "2022-12-06T14:54:00Z",
       "author": "exwill"
+    },
+    "question": {
+      "text": "Автор является профессионалом?",
+      "options": [
+        {
+          "value": 1,
+          "text": "Да"
+        },
+        {
+          "value": 2,
+          "text": "Нет"
+        }
+      ],
+      "correctAnswer": 1
     }
   }]
 }

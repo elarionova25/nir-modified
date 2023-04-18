@@ -1,40 +1,59 @@
 <template>
-  <transition name="post">
-    <article v-if="allReady" class="post">
-      <b-button variant="link" :to="{path: '/', name: 'feed'}">
-        <b-icon-caret-left/>
-        Назад
-      </b-button>
-      <header class="post__header">
-        <h2 class="post__title">{{ title }}</h2>
+  <div>
+    <transition name="post">
+      <article v-if="allReady" class="post">
+        <b-button
+          v-if="isAnswered"
+          variant="link"
+          :to="{path: '/', name: 'feed'}">
+          <b-icon-caret-left/>
+          Назад
+        </b-button>
+        <b-button v-else variant="link" @click="showModal()">
+          <b-icon-caret-left/>
+          Назад
+        </b-button>
+        <header class="post__header">
+          <h2 class="post__title">{{ title }}</h2>
 
-        <h3 class="post__meta">Автор <router-link class="post__author"
-          :to="`/by/${kebabify(author)}`">{{ author }}</router-link>
-          <span class="post__sep"></span>
-          <time>{{ prettyDate(published) }}</time>
-        </h3>
+          <h3 class="post__meta">Автор <router-link class="post__author"
+                                                    :to="`/by/${kebabify(author)}`">{{ author }}</router-link>
+            <span class="post__sep"></span>
+            <time>{{ prettyDate(published) }}</time>
+          </h3>
 
-        <blockquote class="post__subtitle">{{ description }}</blockquote>
-      </header>
+          <blockquote class="post__subtitle">{{ description }}</blockquote>
+        </header>
 
-      <section class="post__body rte" v-html="content"></section>
+        <section class="post__body rte" v-html="content"></section>
 
-      <footer class="post__footer">
-        <vue-disqus v-if="commentsReady" shortname="nir-simple"
-          :key="post" :identifier="post" :url="`https://nir-project-simple.onrender.com/read/${post}`"/>
-      </footer>
-    </article>
-  </transition>
+      </article>
+    </transition>
+    <QuestionsModal
+      v-if="isShowQuestionModal"
+      :isAnswered="isAnswered"
+      :question="question"
+      @on-close="isShowQuestionModal = false"
+      @on-answered="isAnswered=true"
+      @on-right-answer="isShowCorrectAnswerModal=true"
+    />
+    <CorrectAnswer
+      v-if="isShowCorrectAnswerModal"
+      @on-close="isShowCorrectAnswerModal = false"
+    />
+  </div>
 </template>
 
 <script>
 import VueDisqus from 'vue-disqus/VueDisqus'
 import { kebabify, prettyDate } from '../../helpers'
+import QuestionsModal from '../QuestionsModal.vue';
+import CorrectAnswer from '../CorrectAnswer.vue';
 
 export default {
   name: 'blog-post',
   resource: 'BlogPost',
-  components: { VueDisqus },
+  components: { CorrectAnswer, QuestionsModal, VueDisqus },
   props: { post: String },
 
   data() {
@@ -44,14 +63,27 @@ export default {
       content: '',
       published: '',
       description: '',
+      question: {},
       commentsReady: false,
-      ready: false
+      ready: false,
+      isAnswered: false,
+      isShowQuestionModal: false,
+      isShowCorrectAnswerModal: false
     }
+  },
+  created: function () {
+    console.log(12121212121)
+    // `this` указывает на экземпляр vm
+    window.onhashchange = function() {
+      console.log('HERERERERERERERERER')
+    };
+
+    // console.log('Значение a: ' + this.a)
   },
 
   computed: {
     allReady() {
-      return this.ready && this.post;
+      return this.ready && this.question && this.post;
     }
   },
 
@@ -59,10 +91,8 @@ export default {
     post(to, from) {
       if (to === from || !this.post) return;
 
-      this.commentsReady = false
       this.$getResource('post', to)
-        .then(this.showComments)
-        .then(() => {
+        .then((post) => {
           this.ready = true;
         });
     }
@@ -71,16 +101,8 @@ export default {
   methods: {
     kebabify,
     prettyDate,
-    showComments() {
-      // This is injected by prerender-spa-plugin on build time, we don't prerender disqus comments.
-      if (window.__PRERENDER_INJECTED &&
-          window.__PRERENDER_INJECTED.prerendered) {
-        return;
-      }
-
-      setTimeout(() => {
-        this.commentsReady = true
-      }, 1000)
+    showModal() {
+      this.isShowQuestionModal = true;
     }
   },
 
@@ -91,7 +113,6 @@ export default {
     }
 
     this.$getResource('post', this.post)
-      .then(this.showComments)
       .then(() => {
         this.ready = true;
       });
