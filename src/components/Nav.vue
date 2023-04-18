@@ -4,7 +4,6 @@
       <div>
         <h1 class="nav__title">
           <router-link to="/" style="margin-right: 10px;">Статьи</router-link>
-          <router-link to="/news">Новости</router-link>
           <b-button variant="success" :to="{ path: '/add', name: 'add'}">
             Добавить статью
           </b-button>
