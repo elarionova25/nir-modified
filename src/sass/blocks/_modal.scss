@@ -31,6 +31,18 @@
   max-width: 500px;
   max-height: 220px;
 }
+.modal-user {
+  background: #FFFFFF;
+  position: relative;
+  top: 20px;
+  right: 50px;
+  box-shadow: 2px 2px 20px 1px;
+  overflow-x: auto;
+  display: flex;
+  flex-direction: column;
+  min-width: 550px;
+  min-height: 200px;
+}
 
 .modal-header,
 .modal-footer {
