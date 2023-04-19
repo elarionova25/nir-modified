@@ -103,10 +103,19 @@ export default {
     prettyDate,
     showModal() {
       this.isShowQuestionModal = true;
+    },
+    handleBackButton() {
+      if (!this.isAnswered) {
+        this.showModal();
+      }
     }
   },
 
   mounted() {
+    window.onpopstate = event => {
+      this.handleBackButton();
+    }
+
     if (!this.post) {
       this.ready = true;
       return;
