@@ -11,6 +11,7 @@
     "lint": "eslint --ext .js,.vue src"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.20.0",
     "bootstrap": "^4.6.2",
     "bootstrap-vue": "^2.23.1",
     "jquery": "^3.6.4",
