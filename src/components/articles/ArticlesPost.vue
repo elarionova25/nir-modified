@@ -3,13 +3,8 @@
     <transition name="post">
       <article v-if="allReady" class="post">
         <b-button
-          v-if="isAnswered"
           variant="link"
           :to="{path: '/', name: 'feed'}">
-          <b-icon-caret-left/>
-          Назад
-        </b-button>
-        <b-button v-else variant="link" @click="showModal()">
           <b-icon-caret-left/>
           Назад
         </b-button>
@@ -30,16 +25,9 @@
       </article>
     </transition>
     <QuestionsModal
-      v-if="isShowQuestionModal"
-      :isAnswered="isAnswered"
+      v-show="isShowQuestionModal"
       :question="question"
       @on-close="isShowQuestionModal = false"
-      @on-answered="isAnswered=true"
-      @on-right-answer="isShowCorrectAnswerModal=true"
-    />
-    <CorrectAnswer
-      v-if="isShowCorrectAnswerModal"
-      @on-close="isShowCorrectAnswerModal = false"
     />
   </div>
 </template>
@@ -48,13 +36,12 @@
 import VueDisqus from 'vue-disqus/VueDisqus'
 import { kebabify, prettyDate } from '../../helpers'
 import QuestionsModal from '../QuestionsModal.vue';
-import CorrectAnswer from '../CorrectAnswer.vue';
 import {supabase} from '../../lib/supabaseClient';
 
 export default {
   name: 'blog-post',
   resource: 'BlogPost',
-  components: { CorrectAnswer, QuestionsModal, VueDisqus },
+  components: { QuestionsModal, VueDisqus },
   props: { post: String },
 
   data() {
@@ -66,13 +53,12 @@ export default {
         options: {}
       },
       content: '',
-      commentsReady: false,
       ready: false,
-      isAnswered: false,
-      isShowQuestionModal: false,
-      isShowCorrectAnswerModal: false
+      results: [],
+      isShowQuestionModal: false
     }
   },
+
   computed: {
     allReady() {
       return this.ready && this.question && this.post;
@@ -84,6 +70,11 @@ export default {
       if (to === from || !this.post) return;
 
       this.fetchData(to);
+    },
+    '$route' (to, from) {
+      if (this.results.length === 0 && to.name === 'feed') {
+        this.showModal();
+      }
     }
   },
 
@@ -93,26 +84,32 @@ export default {
     showModal() {
       this.isShowQuestionModal = true;
     },
-    handleBackButton() {
-      if (!this.isAnswered) {
-        this.showModal();
-      }
-    },
+    // handleBackButton() {
+    //   if (!this.isAnswered) {
+    //     this.showModal();
+    //   }
+    // },
     async fetchData(to) {
-      await supabase.from('posts').select('*').eq('id', to)
+      await supabase.from('posts')
+        .select('*')
+        .eq('id', to)
         .then((post) => {
           this.currentPost = post.data[0];
-          this.ready = true;
         });
       this.content = '<p>' + this.currentPost.content.split('\n\n').join('</p><p>') + '</p>';
 
-      await supabase.from('questions').select('*').eq('id', this.currentPost.question_id)
+      await supabase.from('questions')
+        .select('*')
+        .eq('id', this.currentPost.question_id)
         .then((question) => {
+          this.question.id = question.data[0].id;
           this.question.text = question.data[0].text;
           this.question.correctAnswer = question.data[0].correct_answer;
         });
 
-      await supabase.from('answers').select('*').eq('question_id', this.currentPost.question_id)
+      await supabase.from('answers')
+        .select('*')
+        .eq('question_id', this.currentPost.question_id)
         .then((answers) => {
           this.question.options = answers.data.map((item) => {
             return {
@@ -121,13 +118,23 @@ export default {
             }
           });
         });
+
+      let userId = localStorage.getItem('user_id');
+      await supabase.from('answered_questions')
+        .select('*')
+        .eq('question_id', this.currentPost.question_id)
+        .eq('user_id', userId)
+        .then((response) => {
+          this.results = response.data;
+          this.ready = true;
+        })
     }
   },
 
   mounted() {
-    window.onpopstate = event => {
-      this.handleBackButton();
-    }
+    // window.onpopstate = event => {
+    //   this.handleBackButton();
+    // }
 
     if (!this.post) {
       this.ready = true;

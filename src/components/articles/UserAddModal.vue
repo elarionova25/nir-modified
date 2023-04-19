@@ -52,11 +52,9 @@ export default {
         loggined_in: new Date(),
         is_modified: this.isModified
       }
-      await supabase.from('users').insert(user)
-        .then((user) => {
-          localStorage.setItem('user', user);
-          this.close()
-        });
+      let createdUser = await supabase.from('users').insert(user).select();
+      localStorage.setItem('user_id', createdUser.data[0].id);
+      this.close();
     }
   }
 }

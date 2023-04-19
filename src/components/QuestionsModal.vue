@@ -31,13 +31,11 @@
 </template>
 
 <script>
+import {supabase} from '../lib/supabaseClient';
+
 export default {
   name: 'QuestionsModal',
   props: {
-    isAnswered: {
-      type: Boolean,
-      default: false
-    },
     question: {
       type: Object,
       default: {}
@@ -50,11 +48,16 @@ export default {
     close() {
       this.$emit('on-close');
     },
-    checkAnswer() {
+    async checkAnswer() {
       if (this.selected === this.question.correctAnswer) {
         this.$emit('on-right-answer');
       }
-      this.$emit('on-answered');
+      let result = {
+        user_id: localStorage.getItem('user_id'),
+        question_id: this.question.id,
+        is_right: this.selected === this.question.correctAnswer
+      }
+      await supabase.from('answered_questions').insert(result);
       this.close();
     }
   }

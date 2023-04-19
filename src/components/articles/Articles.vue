@@ -67,7 +67,7 @@ export default {
 
   methods: {
     isLoggedIn() {
-      if (localStorage.getItem('user') === null) {
+      if (localStorage.getItem('user_id') === null) {
         this.isShowUserAddModal = true;
       }
     }
