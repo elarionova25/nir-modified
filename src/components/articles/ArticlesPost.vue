@@ -14,15 +14,15 @@
           Назад
         </b-button>
         <header class="post__header">
-          <h2 class="post__title">{{ title }}</h2>
+          <h2 class="post__title">{{ currentPost.title }}</h2>
 
           <h3 class="post__meta">Автор <router-link class="post__author"
-                                                    :to="`/by/${kebabify(author)}`">{{ author }}</router-link>
+                                                    :to="`/by/${kebabify(currentPost.author)}`">{{ currentPost.author }}</router-link>
             <span class="post__sep"></span>
-            <time>{{ prettyDate(published) }}</time>
+            <time>{{ prettyDate(currentPost.published) }}</time>
           </h3>
 
-          <blockquote class="post__subtitle">{{ description }}</blockquote>
+          <blockquote class="post__subtitle">Информационная безопасность</blockquote>
         </header>
 
         <section class="post__body rte" v-html="content"></section>
@@ -49,6 +49,7 @@ import VueDisqus from 'vue-disqus/VueDisqus'
 import { kebabify, prettyDate } from '../../helpers'
 import QuestionsModal from '../QuestionsModal.vue';
 import CorrectAnswer from '../CorrectAnswer.vue';
+import {supabase} from '../../lib/supabaseClient';
 
 export default {
   name: 'blog-post',
@@ -58,12 +59,13 @@ export default {
 
   data() {
     return {
-      title: '',
-      author: '',
+      currentPost: {},
+      question: {
+        text: '',
+        correctAnswer: null,
+        options: {}
+      },
       content: '',
-      published: '',
-      description: '',
-      question: {},
       commentsReady: false,
       ready: false,
       isAnswered: false,
@@ -71,16 +73,6 @@ export default {
       isShowCorrectAnswerModal: false
     }
   },
-  created: function () {
-    console.log(12121212121)
-    // `this` указывает на экземпляр vm
-    window.onhashchange = function() {
-      console.log('HERERERERERERERERER')
-    };
-
-    // console.log('Значение a: ' + this.a)
-  },
-
   computed: {
     allReady() {
       return this.ready && this.question && this.post;
@@ -91,10 +83,7 @@ export default {
     post(to, from) {
       if (to === from || !this.post) return;
 
-      this.$getResource('post', to)
-        .then((post) => {
-          this.ready = true;
-        });
+      this.fetchData(to);
     }
   },
 
@@ -108,6 +97,30 @@ export default {
       if (!this.isAnswered) {
         this.showModal();
       }
+    },
+    async fetchData(to) {
+      await supabase.from('posts').select('*').eq('id', to)
+        .then((post) => {
+          this.currentPost = post.data[0];
+          this.ready = true;
+        });
+      this.content = '<p>' + this.currentPost.content.split('\n\n').join('</p><p>') + '</p>';
+
+      await supabase.from('questions').select('*').eq('id', this.currentPost.question_id)
+        .then((question) => {
+          this.question.text = question.data[0].text;
+          this.question.correctAnswer = question.data[0].correct_answer;
+        });
+
+      await supabase.from('answers').select('*').eq('question_id', this.currentPost.question_id)
+        .then((answers) => {
+          this.question.options = answers.data.map((item) => {
+            return {
+              value: item.id,
+              text: item.option
+            }
+          });
+        });
     }
   },
 
@@ -121,10 +134,7 @@ export default {
       return;
     }
 
-    this.$getResource('post', this.post)
-      .then(() => {
-        this.ready = true;
-      });
+    this.fetchData(this.post);
   }
 }
 </script>

@@ -32,6 +32,7 @@
 
 <script>
 import { scrollTo, kebabify, prettyDate } from '../../helpers'
+import {supabase} from '../../lib/supabaseClient';
 
 export default {
   name: 'blog-feed',
@@ -47,12 +48,15 @@ export default {
       default: {}
     }
   },
-
   data() {
     return {
       posts: [],
       transition: 'preview-appear'
     }
+  },
+
+  mounted() {
+    this.fetchData()
   },
 
   computed: {
@@ -106,19 +110,17 @@ export default {
       }
 
       interval = setInterval(stack, 125)
-    }
-  },
+    },
 
-  mounted() {
-    this.$getResource('feed')
-      .then(posts => {
-        if (!Object.keys(this.filters).length) {
-          this.stackPosts(posts)
-        } else {
-          this.posts = posts
-          this.transition = 'preview'
-        }
-      })
+    async fetchData() {
+      const { data } = await supabase.from('posts').select('*');
+      if (!Object.keys(this.filters).length) {
+        this.stackPosts(data)
+      } else {
+        this.posts = data;
+        this.transition = 'preview'
+      }
+    }
   }
 }
 </script>

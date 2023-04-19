@@ -1,5 +1,6 @@
 <template>
   <main class="blog" :class="{ 'blog--reading': this.post }">
+
     <blog-nav :content="content" :filters="filters" :navs="navs" :query="query"/>
     <blog-feed :filters="filters" :query="query"/>
     <blog-post :post="post"/>
@@ -58,6 +59,7 @@ export default {
   },
 
   mounted() {
+    this.fetchData();
     this.$getResource('blog')
       .then(x => {
         // use pace hook to know when rendering is ready
