@@ -5,7 +5,7 @@
         <div class="modal-question">
           <header class="modal-header">
             <slot name="header">
-              Для продолжения необходимо ответить на вопрос
+              Пожалуйста, ответьте на вопрос
             </slot>
           </header>
           <body class="modal-body">

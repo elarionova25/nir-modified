@@ -113,7 +113,7 @@ export default {
     },
 
     async fetchData() {
-      const { data } = await supabase.from('posts').select('*');
+      const { data } = await supabase.from('posts').select('*').order('id');
       if (!Object.keys(this.filters).length) {
         this.stackPosts(data)
       } else {
