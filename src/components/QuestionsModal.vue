@@ -57,7 +57,14 @@ export default {
         question_id: this.question.id,
         is_right: this.selected === this.question.correctAnswer
       }
-      await supabase.from('answered_questions').insert(result);
+      try {
+        await supabase.from('answered_questions')
+          .insert(result)
+          .then()
+      } catch (e) {
+        throw Error(e)
+      }
+
       this.close();
     }
   }

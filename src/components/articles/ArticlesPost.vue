@@ -89,15 +89,17 @@ export default {
     //     this.showModal();
     //   }
     // },
-    async fetchData(to) {
+
+    async getPosts (to) {
       await supabase.from('posts')
         .select('*')
         .eq('id', to)
         .then((post) => {
           this.currentPost = post.data[0];
         });
-      this.content = '<p>' + this.currentPost.content.split('\n\n').join('</p><p>') + '</p>';
+    },
 
+    async getQuestions () {
       await supabase.from('questions')
         .select('*')
         .eq('id', this.currentPost.question_id)
@@ -106,7 +108,9 @@ export default {
           this.question.text = question.data[0].text;
           this.question.correctAnswer = question.data[0].correct_answer;
         });
+    },
 
+    async getAnswers () {
       await supabase.from('answers')
         .select('*')
         .eq('question_id', this.currentPost.question_id)
@@ -118,8 +122,9 @@ export default {
             }
           });
         });
+    },
 
-      let userId = localStorage.getItem('user_id');
+    async getAnsweredQuestions (userId) {
       await supabase.from('answered_questions')
         .select('*')
         .eq('question_id', this.currentPost.question_id)
@@ -128,6 +133,25 @@ export default {
           this.results = response.data;
           this.ready = true;
         })
+    },
+
+    async fetchData(to) {
+      await this.getPosts(to).catch((e) => {
+        throw Error(e)
+      })
+      this.content = '<p>' + this.currentPost.content.split('\n\n').join('</p><p>') + '</p>';
+
+      await this.getQuestions()
+
+      await this.getAnswers().catch((e) => {
+        throw Error(e)
+      })
+
+      let userId = localStorage.getItem('user_id');
+
+      await this.getAnsweredQuestions(userId).catch((e) => {
+        throw Error(e)
+      });
     }
   },
 
