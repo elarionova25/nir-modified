@@ -5,7 +5,7 @@
   "author": "",
   "private": true,
   "scripts": {
-    "dev": "node build/dev-server.js --unhandled-rejections=strict",
+    "dev": "node --unhandled-rejections=strict build/dev-server.js",
     "start": "npm run dev",
     "build": "node build/build.js",
     "lint": "eslint --ext .js,.vue src"
