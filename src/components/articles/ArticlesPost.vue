@@ -91,66 +91,84 @@ export default {
     // },
 
     async getPosts (to) {
-      await supabase.from('posts')
-        .select('*')
-        .eq('id', to)
-        .then((post) => {
-          this.currentPost = post.data[0];
-        });
+      try {
+        await supabase.from('posts')
+          .select('*')
+          .eq('id', to)
+          .then((post) => {
+            this.currentPost = post.data[0];
+          });
+      } catch (e) {
+        console.log(e)
+      }
     },
 
     async getQuestions () {
-      await supabase.from('questions')
-        .select('*')
-        .eq('id', this.currentPost.question_id)
-        .then((question) => {
-          this.question.id = question.data[0].id;
-          this.question.text = question.data[0].text;
-          this.question.correctAnswer = question.data[0].correct_answer;
-        });
+      try {
+        await supabase.from('questions')
+          .select('*')
+          .eq('id', this.currentPost.question_id)
+          .then((question) => {
+            this.question.id = question.data[0].id;
+            this.question.text = question.data[0].text;
+            this.question.correctAnswer = question.data[0].correct_answer;
+          });
+      } catch (e) {
+        console.log(e)
+      }
     },
 
     async getAnswers () {
-      await supabase.from('answers')
-        .select('*')
-        .eq('question_id', this.currentPost.question_id)
-        .then((answers) => {
-          this.question.options = answers.data.map((item) => {
-            return {
-              value: item.id,
-              text: item.option
-            }
+      try {
+        await supabase.from('answers')
+          .select('*')
+          .eq('question_id', this.currentPost.question_id)
+          .then((answers) => {
+            this.question.options = answers.data.map((item) => {
+              return {
+                value: item.id,
+                text: item.option
+              }
+            });
           });
-        });
+      } catch (e) {
+        console.log(e)
+      }
     },
 
     async getAnsweredQuestions (userId) {
-      await supabase.from('answered_questions')
-        .select('*')
-        .eq('question_id', this.currentPost.question_id)
-        .eq('user_id', userId)
-        .then((response) => {
-          this.results = response.data;
-          this.ready = true;
-        })
+      try {
+        await supabase.from('answered_questions')
+          .select('*')
+          .eq('question_id', this.currentPost.question_id)
+          .eq('user_id', userId)
+          .then((response) => {
+            this.results = response.data;
+            this.ready = true;
+          })
+      } catch (e) {
+        console.log(e)
+      }
     },
 
     async fetchData(to) {
       await this.getPosts(to).catch((e) => {
-        throw Error(e)
+        console.log(e)
       })
       this.content = '<p>' + this.currentPost.content.split('\n\n').join('</p><p>') + '</p>';
 
-      await this.getQuestions()
+      await this.getQuestions().catch((e) => {
+        console.log(e)
+      })
 
       await this.getAnswers().catch((e) => {
-        throw Error(e)
+        console.log(e)
       })
 
       let userId = localStorage.getItem('user_id');
 
       await this.getAnsweredQuestions(userId).catch((e) => {
-        throw Error(e)
+        console.log(e)
       });
     }
   },

@@ -62,7 +62,7 @@ export default {
           .insert(result)
           .then()
       } catch (e) {
-        throw Error(e)
+        console.log(e)
       }
 
       this.close();

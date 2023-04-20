@@ -52,7 +52,13 @@ export default {
         loggined_in: new Date(),
         is_modified: this.isModified
       }
-      let createdUser = await supabase.from('users').insert(user).select();
+      let createdUser = null;
+      try {
+        createdUser = await supabase.from('users').insert(user).select();
+      } catch (e) {
+        console.log(e);
+      }
+      // let createdUser = await supabase.from('users').insert(user).select();
       localStorage.setItem('user_id', createdUser.data[0].id);
       this.close();
     }

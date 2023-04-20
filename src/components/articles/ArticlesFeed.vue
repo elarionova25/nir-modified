@@ -123,7 +123,7 @@ export default {
           })
         ;
       } catch (e) {
-        throw Error(e)
+        console.log(e)
       }
       if (!Object.keys(this.filters).length) {
         this.stackPosts(data)
