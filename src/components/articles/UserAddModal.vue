@@ -45,15 +45,19 @@ export default {
     },
 
     async addUser() {
+      console.log(1)
       let user = {
         fio: this.userFio,
         loggined_in: new Date(),
         is_modified: this.isModified
       }
+      console.log(2)
       let createdUser = null;
       try {
         createdUser = await supabase.from('users').insert(user).select();
+        console.log(createdUser)
         localStorage.setItem('user_id', createdUser.data[0].id);
+        console.log(localStorage.getItem('user_id'))
         this.close();
       } catch (e) {
         console.log(e);
