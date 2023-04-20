@@ -1,9 +1,14 @@
 <template>
-  <b-modal v-model="isShow" :no-close-on-backdrop="true">
+  <b-modal
+    v-model="isShow"
+    :no-close-on-backdrop="true"
+    centered
+    :header-bg-variant="'warning'"
+  >
     <template #modal-header>
-      <div class="w-100">
-        <h2>Пожалуйста, ответьте на вопрос</h2>
-      </div>
+        <p class="mb-1 font-weight-bold h5">
+          Пожалуйста, ответьте на вопрос
+        </p>
     </template>
     <div class="mb-2">
       {{ question.text }}

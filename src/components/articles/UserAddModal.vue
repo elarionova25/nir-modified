@@ -1,9 +1,9 @@
 <template>
-  <b-modal v-model="isShow" :no-close-on-backdrop="true">
+  <b-modal v-model="isShow" :no-close-on-backdrop="true" centered>
     <template #modal-header>
-      <div class="w-100">
-        <h2>Пожалуйста, введите ФИО</h2>
-      </div>
+      <p class="mb-1 font-weight-bold h5">
+        Пожалуйста, введите ФИО
+      </p>
     </template>
     <div class="w-100">
       <b-form-input v-model="userFio"/>
