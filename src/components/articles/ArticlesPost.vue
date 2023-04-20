@@ -23,7 +23,7 @@
         </header>
         <div>
           <b-alert variant="warning" :show="question.text !== ''">
-          <p class="mb-1 font-weight-bold">
+          <p class="mb-1 font-weight-bold h5">
             <b>Внимание!</b>
           </p>
             <br>

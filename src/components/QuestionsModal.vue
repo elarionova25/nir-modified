@@ -7,7 +7,7 @@
   >
     <template #modal-header>
         <p class="mb-1 font-weight-bold h5">
-          Пожалуйста, ответьте на вопрос
+          Ответьте на вопрос
         </p>
     </template>
     <div class="mb-2">
