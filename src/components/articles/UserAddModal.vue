@@ -7,6 +7,9 @@
     </template>
     <div>
       <b-form-input v-model="userFio"/>
+      <b-button @click="console.log('12334')">
+        test
+      </b-button>
     </div>
     <template #modal-footer>
       <div class="w-100">
