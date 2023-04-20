@@ -4,11 +4,11 @@
     <blog-feed :filters="filters" :query="query"/>
     <blog-post :post="post"/>
     <blog-footer/>
-<!--    <user-add-modal-->
-<!--      :isShow="isShowUserAddModal"-->
-<!--      :is-modified="isModified"-->
-<!--      @on-close="isShowUserAddModal = false"-->
-<!--    />-->
+    <user-add-modal
+      :isShow="isShowUserAddModal"
+      :is-modified="isModified"
+      @on-close="isShowUserAddModal = false"
+    />
   </main>
 </template>
 
