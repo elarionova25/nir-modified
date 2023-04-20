@@ -7,7 +7,7 @@
     </template>
     <div>
       <b-form-input v-model="userFio"/>
-      <b-button @click="console.log('12334')">
+      <b-button @click="test()">
         test
       </b-button>
     </div>
@@ -45,6 +45,11 @@ export default {
   methods: {
     close() {
       this.$emit('on-close');
+    },
+
+    test() {
+      console.log('12334');
+      console.log(localStorage.getItem('user_id'))
     },
 
     async addUser() {
