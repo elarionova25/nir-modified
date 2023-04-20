@@ -4,9 +4,6 @@
       <div>
         <h1 class="nav__title">
           <router-link to="/" style="margin-right: 10px;">Статьи</router-link>
-          <b-button variant="success" :to="{ path: '/add', name: 'add'}">
-            Добавить статью
-          </b-button>
         </h1>
       </div>
       <div style="margin-left: auto" v-if="currentRouteName === 'feed'">
@@ -18,10 +15,15 @@
         </b-input-group>
       </div>
       <transition-group tag="menu" name="nav__item" class="nav__menu ml-3" style="text-align: right">
-        <button v-for="label in labels" class="nav__item" :key="label" @click="navBack">
-          <i class="nav__item--icon"></i>
-          <span class="nav__item--label">{{ label }}</span>
-        </button>
+        <b-button v-for="label in labels"
+                  variant="success"
+                  class="p-2"
+                  :key="label"
+
+                  @click="navBack">
+          <b-icon-caret-left/>
+          <span class="m-0">{{ label }}</span>
+        </b-button>
       </transition-group>
     </nav>
   </div>

@@ -4,7 +4,9 @@
       <article v-if="allReady" class="post">
         <b-button
           variant="link"
-          :to="{path: '/', name: 'feed'}">
+          size="sm"
+          :to="{path: '/', name: 'feed'}"
+          style="color: black">
           <b-icon-caret-left/>
           Назад
         </b-button>
