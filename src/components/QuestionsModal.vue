@@ -1,33 +1,27 @@
 <template>
-  <div>
-    <transition name="modal-fade">
-      <div class="modal-backdrop">
-        <div class="modal-question">
-          <header class="modal-header">
-            <slot name="header">
-              Пожалуйста, ответьте на вопрос
-            </slot>
-          </header>
-          <body class="modal-body">
-          <div class="mb-2">
-            {{ question.text }}
-          </div>
-          <div class="mb-2 mt-2">
-            <b-form-select v-model="selected" :options="question.options"/>
-          </div>
-          <div class="mt-4">
-            <b-button
-              variant="primary"
-              @click="checkAnswer"
-            >
-              Ответить
-            </b-button>
-          </div>
-          </body>
-        </div>
+  <b-modal v-model="isShow" :no-close-on-backdrop="true">
+    <template #modal-header>
+      <div class="w-100">
+        <h2>Пожалуйста, ответьте на вопрос</h2>
       </div>
-    </transition>
-  </div>
+    </template>
+    <div class="mb-2">
+      {{ question.text }}
+    </div>
+    <div class="mb-2 mt-2">
+      <b-form-select v-model="selected" :options="question.options"/>
+    </div>
+    <template #modal-footer>
+      <div class="w-100">
+        <b-button
+          variant="primary"
+          @click="checkAnswer"
+        >
+          Ответить
+        </b-button>
+      </div>
+    </template>
+  </b-modal>
 </template>
 
 <script>
@@ -36,6 +30,10 @@ import {supabase} from '../lib/supabaseClient';
 export default {
   name: 'QuestionsModal',
   props: {
+    isShow: {
+      type: Boolean,
+      default: false
+    },
     question: {
       type: Object,
       default: {}

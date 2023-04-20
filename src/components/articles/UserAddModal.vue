@@ -1,30 +1,24 @@
 <template>
-    <div>
-      <transition name="modal-fade">
-        <div class="modal-backdrop">
-          <div class="modal-user">
-            <header class="modal-header">
-              <slot name="header">
-                <h2>Пожалуйста, введите ФИО</h2>
-              </slot>
-            </header>
-            <body class="modal-body">
-            <div class="mb-2 mt-2">
-              <b-form-input v-model="userFio"/>
-            </div>
-            <div class="mt-4">
-              <b-button
-                variant="primary"
-                @click="addUser"
-              >
-                Отправить
-              </b-button>
-            </div>
-            </body>
-          </div>
-        </div>
-      </transition>
+  <b-modal v-model="isShow" :no-close-on-backdrop="true">
+    <template #modal-header>
+      <div class="w-100">
+        <h2>Пожалуйста, введите ФИО</h2>
+      </div>
+    </template>
+    <div class="w-100">
+      <b-form-input v-model="userFio"/>
     </div>
+    <template #modal-footer>
+      <div class="w-100">
+        <b-button
+          variant="primary"
+          @click="addUser"
+        >
+          Отправить
+        </b-button>
+      </div>
+    </template>
+  </b-modal>
 </template>
 
 <script>
@@ -33,6 +27,10 @@ import {supabase} from '../../lib/supabaseClient';
 export default {
   name: 'UserAddModal',
   props: {
+    isShow: {
+      type: Boolean,
+      default: false
+    },
     isModified: {
       type: Boolean,
       default: false
@@ -42,7 +40,7 @@ export default {
     userFio: null
   }),
   methods: {
-    close () {
+    close() {
       this.$emit('on-close');
     },
 

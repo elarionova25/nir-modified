@@ -19,13 +19,22 @@
 
           <blockquote class="post__subtitle">Информационная безопасность</blockquote>
         </header>
-
+        <div>
+          <b-alert variant="warning" :show="question.text !== ''">
+          <p class="mb-1 font-weight-bold">
+            <b>Внимание!</b>
+          </p>
+            <br>
+            <span>
+            После закрытия статьи, Вам будет задан вопрос. Пожалуйста, ознакомьтесь с текстом ниже.
+          </span>
+          </b-alert>
+        </div>
         <section class="post__body rte" v-html="content"></section>
-
       </article>
     </transition>
     <QuestionsModal
-      v-show="isShowQuestionModal"
+      :is-show="isShowQuestionModal"
       :question="question"
       @on-close="isShowQuestionModal = false"
     />

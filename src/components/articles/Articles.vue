@@ -5,7 +5,7 @@
     <blog-post :post="post"/>
     <blog-footer/>
     <user-add-modal
-      v-show="isShowUserAddModal"
+      :isShow="isShowUserAddModal"
       :is-modified="isModified"
       @on-close="isShowUserAddModal = false"
     />
