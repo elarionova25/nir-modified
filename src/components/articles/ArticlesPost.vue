@@ -44,7 +44,6 @@
 </template>
 
 <script>
-import VueDisqus from 'vue-disqus/VueDisqus'
 import { kebabify, prettyDate } from '../../helpers'
 import QuestionsModal from '../QuestionsModal.vue';
 import {supabase} from '../../lib/supabaseClient';
@@ -52,7 +51,7 @@ import {supabase} from '../../lib/supabaseClient';
 export default {
   name: 'blog-post',
   resource: 'BlogPost',
-  components: { QuestionsModal, VueDisqus },
+  components: { QuestionsModal },
   props: { post: String },
 
   data() {
@@ -95,12 +94,6 @@ export default {
     showModal() {
       this.isShowQuestionModal = true;
     },
-    // handleBackButton() {
-    //   if (!this.isAnswered) {
-    //     this.showModal();
-    //   }
-    // },
-
     async getPosts (to) {
       try {
         await supabase.from('posts')
@@ -185,10 +178,6 @@ export default {
   },
 
   mounted() {
-    // window.onpopstate = event => {
-    //   this.handleBackButton();
-    // }
-
     if (!this.post) {
       this.ready = true;
       return;

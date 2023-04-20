@@ -40,8 +40,7 @@ export default {
       },
       query: {
         search: ''
-      },
-      status: ''
+      }
     }
   },
 
