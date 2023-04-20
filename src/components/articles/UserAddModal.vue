@@ -5,7 +5,7 @@
         Пожалуйста, введите ФИО
       </p>
     </template>
-    <div class="w-100">
+    <div>
       <b-form-input v-model="userFio"/>
     </div>
     <template #modal-footer>
@@ -53,12 +53,11 @@ export default {
       let createdUser = null;
       try {
         createdUser = await supabase.from('users').insert(user).select();
+        localStorage.setItem('user_id', createdUser.data[0].id);
+        this.close();
       } catch (e) {
         console.log(e);
       }
-      // let createdUser = await supabase.from('users').insert(user).select();
-      localStorage.setItem('user_id', createdUser.data[0].id);
-      this.close();
     }
   }
 }
