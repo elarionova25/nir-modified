@@ -4,11 +4,6 @@
     <blog-feed :filters="filters" :query="query"/>
     <blog-post :post="post"/>
     <blog-footer/>
-<!--    <user-add-modal-->
-<!--      :isShow="isShowUserAddModal"-->
-<!--      :is-modified="isModified"-->
-<!--      @on-close="isShowUserAddModal = false"-->
-<!--    />-->
   </main>
 </template>
 
@@ -17,11 +12,10 @@ import BlogNav from '../Nav.vue'
 import BlogFeed from './ArticlesFeed.vue'
 import BlogPost from './ArticlesPost.vue'
 import BlogFooter from './ArticlesFooter.vue'
-import UserAddModal from './UserAddModal.vue';
 
 export default {
   name: 'blog',
-  components: { UserAddModal, BlogNav, BlogFeed, BlogPost, BlogFooter },
+  components: { BlogNav, BlogFeed, BlogPost, BlogFooter },
   resource: 'Blog',
   props: {
     post: String,
@@ -30,8 +24,6 @@ export default {
 
   data() {
     return {
-      isShowUserAddModal: false,
-      isModified: false,
       navs: 0,
       title: '',
       labels: {
@@ -64,16 +56,7 @@ export default {
     }
   },
 
-  methods: {
-    isLoggedIn() {
-      if (localStorage.getItem('user_id') === null) {
-        this.isShowUserAddModal = true;
-      }
-    }
-  },
-
   mounted() {
-    this.isLoggedIn();
     this.$getResource('blog')
       .then(x => {
         // use pace hook to know when rendering is ready

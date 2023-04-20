@@ -16,6 +16,7 @@
       <div class="row mt-3">
         <div class="col">
           <b-button
+            :disabled="disabled"
             variant="primary"
             @click="addUser"
           >
@@ -36,22 +37,23 @@ export default {
     userFio: '',
     isModified: false
   }),
+  computed: {
+    disabled() {
+      return localStorage.getItem('user_id') != null;
+    }
+  },
   methods: {
     async addUser() {
-      console.log(1)
       let user = {
         fio: this.userFio,
         loggined_in: new Date(),
         is_modified: this.isModified
       }
-      console.log(2)
       try {
         let createdUser = await supabase.from('users')
           .insert(user)
           .select();
-        console.log(createdUser)
         localStorage.setItem('user_id', createdUser.data[0].id);
-        console.log(localStorage.getItem('user_id'));
         await this.$router.push('/')
       } catch (e) {
         console.log(e);
