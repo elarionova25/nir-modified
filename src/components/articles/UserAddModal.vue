@@ -49,7 +49,6 @@ export default {
 
     test() {
       console.log('12334');
-      console.log(localStorage.getItem('user_id'))
     },
 
     async addUser() {
