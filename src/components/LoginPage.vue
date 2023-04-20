@@ -1,13 +1,20 @@
 <template>
-  <div class="col d-flex justify-content-center align-item-center">
-      <b-card>
-        <div class="row">
-          Пожалуйста, введите ФИО
+  <div class="d-flex align-items-center justify-content-center" style="height: 600px;">
+    <b-card border-variant="info" align="center" style="width: 600px;">
+      <div class="row mb-2">
+        <div class="col">
+          <p class="h5">
+            Пожалуйста, введите ФИО
+          </p>
         </div>
-        <div class="row">
+      </div>
+      <div class="row">
+        <div class="col">
           <b-form-input v-model="userFio"/>
         </div>
-        <div class="row">
+      </div>
+      <div class="row mt-3">
+        <div class="col">
           <b-button
             variant="primary"
             @click="addUser"
@@ -15,10 +22,9 @@
             Отправить
           </b-button>
         </div>
-      </b-card>
+      </div>
+    </b-card>
   </div>
-
-
 </template>
 
 <script>
