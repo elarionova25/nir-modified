@@ -10,7 +10,7 @@
       </p>
     </template>
     <div class="mb-2 mt-2">
-      <p class="mb-1 h5" v-if="counter < 6">
+      <p class="mb-1 h5" v-if="counter < 4">
         Это приложение реализовано в рамках научно-исследовательской работы для исследования влияния интерфейсов на информационно психологическую безопасность.
         <br><br>
         Большое спасибо, что принимаете в ней участие!
@@ -24,7 +24,7 @@
     <template #modal-footer>
       <div class="w-100 d-flex justify-content-end">
         <b-button
-          v-if="counter < 6"
+          v-if="counter < 4"
           class="m-2"
           variant="success"
           @click="more"
@@ -32,7 +32,7 @@
           ОК
         </b-button>
         <b-button
-          v-if="counter === 6"
+          v-if="counter === 4"
           class="m-2"
           variant="success"
           @click="finalClose"
@@ -70,7 +70,7 @@ export default {
   },
   methods: {
     more() {
-      if (this.counter === 6) {
+      if (this.counter === 4) {
         this.$emit('close');
       } else {
         this.isShow = false;
