@@ -4,6 +4,11 @@
     <blog-feed :filters="filters" :query="query"/>
     <blog-post :post="post"/>
     <blog-footer/>
+    <Modal
+      :is-show="isModalVisible"
+      @close="closeModal"
+      @continue="continueModal"
+    />
   </main>
 </template>
 
@@ -12,10 +17,11 @@ import BlogNav from '../Nav.vue'
 import BlogFeed from './ArticlesFeed.vue'
 import BlogPost from './ArticlesPost.vue'
 import BlogFooter from './ArticlesFooter.vue'
+import Modal from '../Modal.vue';
 
 export default {
   name: 'blog',
-  components: { BlogNav, BlogFeed, BlogPost, BlogFooter },
+  components: { Modal, BlogNav, BlogFeed, BlogPost, BlogFooter },
   resource: 'Blog',
   props: {
     post: String,
@@ -24,6 +30,7 @@ export default {
 
   data() {
     return {
+      isModalVisible: true,
       navs: 0,
       title: '',
       labels: {
@@ -47,6 +54,18 @@ export default {
       if (this.author) filters.author = this.author
 
       return filters
+    }
+  },
+
+  methods: {
+    closeModal() {
+      this.isModalVisible = false;
+    },
+    continueModal() {
+      this.isModalVisible = false;
+      setTimeout(() => {
+        this.isModalVisible = true;
+      }, 100);
     }
   },
 
